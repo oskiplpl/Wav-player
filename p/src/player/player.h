@@ -24,8 +24,8 @@ typedef struct
 {
 	int8_t highPassVolume, lowPassVolume;
 	uint8_t isPlaying, canRead, flag;
-	uint8_t audio_pause;
-	int8_t volume;
+	uint8_t audio_pause, audioBtnPause;
+	int8_t volume, displayVolume;
 
 }PLAYER;
 
@@ -44,10 +44,12 @@ void PlayerInit(void);
 void PlaySong(char* fileName, WAV_FORMAT *wav);
 void StopPlaying(void);
 void PlayNextSong(WAV_FORMAT *wav);
+void PlayPreviousSong(WAV_FORMAT *wav);
 void PlayFirstSong(WAV_FORMAT *wav);
 PLAYER_STATE ReadWavData(void);
 
 
 void readPlayerSettings(PLAYER *player);
+void savePlayerSettings(void);
 
 #endif /* PLAYER_PLAYER_H_ */

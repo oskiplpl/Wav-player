@@ -1,4 +1,5 @@
-src/main.o: ../src/main.c \
+src/player/functionHandler.o: ../src/player/functionHandler.c \
+ ../src/player/functionHandler.h \
  C:/Users/OSKI/Desktop/STMWorkspace/p/CMSIS/device/stm32f10x.h \
  C:/Users/OSKI/Desktop/STMWorkspace/p/CMSIS/core/core_cm3.h \
  C:/Users/OSKI/Desktop/STMWorkspace/p/CMSIS/device/system_stm32f10x.h \
@@ -26,25 +27,10 @@ src/main.o: ../src/main.c \
  C:/Users/OSKI/Desktop/STMWorkspace/p/StdPeriph_Driver/inc/stm32f10x_usart.h \
  C:/Users/OSKI/Desktop/STMWorkspace/p/StdPeriph_Driver/inc/stm32f10x_wwdg.h \
  C:/Users/OSKI/Desktop/STMWorkspace/p/StdPeriph_Driver/inc/misc.h \
- ../src/FatFs/ff.h ../src/FatFs/integer.h ../src/FatFs/ffconf.h \
- ../src/FatFs/diskio.h ../src/OM_UART/uart.h ../src/OM_SPI/SPI.h \
- ../src/LCD/lcd44780.h ../src/wav_format/wav.h \
- ../src/wav_format/../FatFs/ff.h ../src/menu/menu.h \
- ../src/menu/../wav_format/wav.h ../src/menu/../wav_format/../FatFs/ff.h \
- ../src/menu/../LCD/lcd44780.h ../src/menu/../player/player.h \
- ../src/menu/../player/../FatFs/ff.h \
- ../src/menu/../player/../wav_format/wav.h \
- ../src/menu/../player/../wav_format/../FatFs/ff.h \
- ../src/menu/../player/../OM_SPI2/SPI_1.h \
- ../src/menu/../player/../OM_SPI2/../OM_UART/uart.h \
- ../src/player/player.h ../src/player/../FatFs/ff.h \
- ../src/player/../wav_format/wav.h \
- ../src/player/../wav_format/../FatFs/ff.h \
- ../src/player/../OM_SPI2/SPI_1.h \
- ../src/player/../OM_SPI2/../OM_UART/uart.h \
- ../src/player/functionHandler.h ../src/player/../menu/menu.h \
- ../src/player/../menu/../wav_format/wav.h \
+ ../src/player/../menu/menu.h ../src/player/../menu/../wav_format/wav.h \
  ../src/player/../menu/../wav_format/../FatFs/ff.h \
+ ../src/player/../menu/../wav_format/../FatFs/integer.h \
+ ../src/player/../menu/../wav_format/../FatFs/ffconf.h \
  ../src/player/../menu/../LCD/lcd44780.h \
  ../src/player/../menu/../player/player.h \
  ../src/player/../menu/../player/../FatFs/ff.h \
@@ -52,8 +38,13 @@ src/main.o: ../src/main.c \
  c:\users\oski\desktop\stmworkspace\p\src\fatfs\ff.h \
  ../src/player/../menu/../player/../OM_SPI2/SPI_1.h \
  c:\users\oski\desktop\stmworkspace\p\src\om_uart\uart.h \
- ../src/player/player.h ../src/delay/delay.h \
- ../src/button_handler/buttons.h
+ ../src/player/player.h ../src/player/../FatFs/ff.h \
+ ../src/player/../wav_format/wav.h \
+ ../src/player/../wav_format/../FatFs/ff.h \
+ ../src/player/../OM_SPI2/SPI_1.h \
+ ../src/player/../OM_SPI2/../OM_UART/uart.h
+
+../src/player/functionHandler.h:
 
 C:/Users/OSKI/Desktop/STMWorkspace/p/CMSIS/device/stm32f10x.h:
 
@@ -109,63 +100,15 @@ C:/Users/OSKI/Desktop/STMWorkspace/p/StdPeriph_Driver/inc/stm32f10x_wwdg.h:
 
 C:/Users/OSKI/Desktop/STMWorkspace/p/StdPeriph_Driver/inc/misc.h:
 
-../src/FatFs/ff.h:
-
-../src/FatFs/integer.h:
-
-../src/FatFs/ffconf.h:
-
-../src/FatFs/diskio.h:
-
-../src/OM_UART/uart.h:
-
-../src/OM_SPI/SPI.h:
-
-../src/LCD/lcd44780.h:
-
-../src/wav_format/wav.h:
-
-../src/wav_format/../FatFs/ff.h:
-
-../src/menu/menu.h:
-
-../src/menu/../wav_format/wav.h:
-
-../src/menu/../wav_format/../FatFs/ff.h:
-
-../src/menu/../LCD/lcd44780.h:
-
-../src/menu/../player/player.h:
-
-../src/menu/../player/../FatFs/ff.h:
-
-../src/menu/../player/../wav_format/wav.h:
-
-../src/menu/../player/../wav_format/../FatFs/ff.h:
-
-../src/menu/../player/../OM_SPI2/SPI_1.h:
-
-../src/menu/../player/../OM_SPI2/../OM_UART/uart.h:
-
-../src/player/player.h:
-
-../src/player/../FatFs/ff.h:
-
-../src/player/../wav_format/wav.h:
-
-../src/player/../wav_format/../FatFs/ff.h:
-
-../src/player/../OM_SPI2/SPI_1.h:
-
-../src/player/../OM_SPI2/../OM_UART/uart.h:
-
-../src/player/functionHandler.h:
-
 ../src/player/../menu/menu.h:
 
 ../src/player/../menu/../wav_format/wav.h:
 
 ../src/player/../menu/../wav_format/../FatFs/ff.h:
+
+../src/player/../menu/../wav_format/../FatFs/integer.h:
+
+../src/player/../menu/../wav_format/../FatFs/ffconf.h:
 
 ../src/player/../menu/../LCD/lcd44780.h:
 
@@ -183,6 +126,12 @@ c:\users\oski\desktop\stmworkspace\p\src\om_uart\uart.h:
 
 ../src/player/player.h:
 
-../src/delay/delay.h:
+../src/player/../FatFs/ff.h:
 
-../src/button_handler/buttons.h:
+../src/player/../wav_format/wav.h:
+
+../src/player/../wav_format/../FatFs/ff.h:
+
+../src/player/../OM_SPI2/SPI_1.h:
+
+../src/player/../OM_SPI2/../OM_UART/uart.h:

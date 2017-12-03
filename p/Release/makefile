@@ -18,7 +18,6 @@ RM := rm -rf
 -include src/OM_UART/subdir.mk
 -include src/OM_SPI2/subdir.mk
 -include src/OM_SPI/subdir.mk
--include src/OM_ADC/subdir.mk
 -include src/LCD/subdir.mk
 -include src/FatFs/option/subdir.mk
 -include src/FatFs/subdir.mk

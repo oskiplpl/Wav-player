@@ -7,7 +7,7 @@
 
 typedef struct
 {
-	char *title;
+	char title[30];
 	uint32_t bitRate;
 	uint32_t doubleBitRate;
 	uint8_t mono;
@@ -19,6 +19,7 @@ typedef struct
 	uint8_t error;
 } WAV_FORMAT;
 
+WAV_FORMAT wav;
 
 WAV_FORMAT GetWavFormat(FIL *plik);
 

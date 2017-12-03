@@ -4,12 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/OM_UART/playerHandler.c \
 ../src/OM_UART/uart.c 
 
 OBJS += \
+./src/OM_UART/playerHandler.o \
 ./src/OM_UART/uart.o 
 
 C_DEPS += \
+./src/OM_UART/playerHandler.d \
 ./src/OM_UART/uart.d 
 
 

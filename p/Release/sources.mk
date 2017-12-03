@@ -20,7 +20,6 @@ StdPeriph_Driver/src \
 src/FatFs \
 src/FatFs/option \
 src/LCD \
-src/OM_ADC \
 src/OM_SPI \
 src/OM_SPI2 \
 src/OM_UART \

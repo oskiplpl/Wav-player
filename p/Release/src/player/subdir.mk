@@ -4,12 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/player/functionHandler.c \
 ../src/player/player.c 
 
 OBJS += \
+./src/player/functionHandler.o \
 ./src/player/player.o 
 
 C_DEPS += \
+./src/player/functionHandler.d \
 ./src/player/player.d 
 
 

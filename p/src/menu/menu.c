@@ -17,7 +17,7 @@ void DisplayMenu(MENU_OPTIONS menuOption, PLAYER player,  WAV_FORMAT wav)
 		{
 			lcd_locate(1,0);
 			lcd_str("Volume:  ");
-			lcd_int(player.volume);
+			lcd_int(player.displayVolume);
 			lcd_str("      ");
 			break;
 		}

@@ -10,7 +10,6 @@
 #include "../OM_UART/uart.h"
 #include "../delay/delay.h"
 
-void savePlayerSettings(PLAYER player);
 void timer3_init(void);
 void timer3_init_48(void);
 
@@ -55,6 +54,44 @@ void PlayNextSong(WAV_FORMAT *wav)
     }
 }
 
+void PlayPreviousSong(WAV_FORMAT *wav)
+{
+	thisWav = wav;
+    const char *patern = "*.wav";
+    const char *x = "";
+
+    char tempTitle[30];
+
+    uint16_t counter = 0;
+
+    while(1)
+    {
+    	counter++;
+
+        if( f_findnext(&dir, &fileinfo) ) return;
+
+        if(fileinfo.fname[0] == 0)
+        {
+            if( f_findfirst(&dir, &fileinfo, x, patern)) return;
+        }
+
+        if( strcmp(wav->title, fileinfo.fname) == 0)
+        	break;
+
+    	strcpy(tempTitle, fileinfo.fname);
+    }
+
+    for(uint16_t i = 0; i < counter - 1; i++)
+    {
+        f_findnext(&dir, &fileinfo);
+
+        if(fileinfo.fname[0] == 0)
+        	f_findfirst(&dir, &fileinfo, x, patern);
+    }
+
+    PlaySong(tempTitle, wav);
+}
+
 void StopPlaying(void)
 {
 	player.isPlaying = 0;
@@ -67,8 +104,6 @@ void PlaySong(char* fileName, WAV_FORMAT *wav)
 
 	player.isPlaying = 0;
 
-	savePlayerSettings(player);
-
 	fresult = f_close(&plik);
 	fresult = f_open(&plik, fileName, FA_READ);
 	if(fresult) return;
@@ -77,7 +112,7 @@ void PlaySong(char* fileName, WAV_FORMAT *wav)
 
 	f_stat(fileName, &fileinfo);
 
-	wav->title = fileinfo.fname;
+	strcpy(wav->title, fileinfo.fname);
 
 	if(wav->error) return;
 
@@ -133,8 +168,6 @@ void TIM3_IRQHandler()
 	{
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 
-//		GPIO_SetBits(GPIOA, GPIO_Pin_8);
-
 		if(!index)
 		{
 			if(buf == spiBuf)
@@ -160,7 +193,7 @@ void TIM3_IRQHandler()
 
 
 			tempSend = toSend * player.volume;
-			toSend = (int16_t)(tempSend >> 4);
+			toSend = (int16_t)(tempSend >> 5);
 
 			index += 2;
 
@@ -231,7 +264,6 @@ void TIM3_IRQHandler()
 
 		spi_1_sendrecv(toSend);
 
-//		GPIO_ResetBits(GPIOA, GPIO_Pin_8);
 	}
 }
 
@@ -283,25 +315,67 @@ void timer3_init_48(void)
 
 uint32_t startAddress = 0x0800fC00;
 
-void savePlayerSettings(PLAYER player)
+void savePlayerSettings(void)
 {
-    FLASH_Unlock();
-    FLASH_ClearFlag(FLASH_FLAG_EOP|FLASH_FLAG_PGERR|FLASH_FLAG_WRPRTERR);
-    FLASH_ErasePage(startAddress);
+	static uint32_t cursor = 0;
 
-    FLASH_ProgramHalfWord((startAddress), player.volume);
-    FLASH_ProgramHalfWord((startAddress + 2), player.highPassVolume);
-    FLASH_ProgramHalfWord((startAddress + 4), player.lowPassVolume);
-    FLASH_Lock();
+	if(cursor > 1000)
+	{
+		FLASH_Unlock();
+		FLASH_ClearFlag(FLASH_FLAG_EOP|FLASH_FLAG_PGERR|FLASH_FLAG_WRPRTERR);
+		FLASH_ErasePage(startAddress);
+		FLASH_Lock();
+		cursor = 0;
+	}
+
+	FLASH_Unlock();
+	FLASH_ProgramHalfWord((startAddress + cursor), player.volume);
+	FLASH_ProgramHalfWord((startAddress + 2 + cursor), player.displayVolume);
+	FLASH_ProgramHalfWord((startAddress + 4 + cursor), player.highPassVolume);
+	FLASH_ProgramHalfWord((startAddress + 6 + cursor), player.lowPassVolume);
+	FLASH_Lock();
+
+	cursor += 8;
 }
 
 void readPlayerSettings(PLAYER *player)
 {
-	player->volume = *(int8_t *)(startAddress);
-	player->highPassVolume = *(int8_t *)(startAddress + 2);
-	player->lowPassVolume = *(int8_t *)(startAddress + 4);
+	uint32_t cursor = 0;
 
-	if(player->volume < 0 || player->volume > 9) player->volume = 3;
+	while(1)
+	{
+		player->volume = *(int8_t *)(startAddress + cursor);
+		player->displayVolume = *(int8_t *)(startAddress + 2 + cursor);
+		player->highPassVolume = *(int8_t *)(startAddress + 4 + cursor);
+		player->lowPassVolume = *(int8_t *)(startAddress + 6 + cursor);
+
+		if((player->volume == -1) && (player->highPassVolume == -1) && (player->lowPassVolume == -1))
+			break;
+
+		cursor += 8;
+	}
+
+	if(cursor) cursor -= 8;
+
+	player->volume = *(int8_t *)(startAddress + cursor);
+	player->displayVolume = *(int8_t *)(startAddress + 2 + cursor);
+	player->highPassVolume = *(int8_t *)(startAddress + 4 + cursor);
+	player->lowPassVolume = *(int8_t *)(startAddress + 6 + cursor);
+
+	if(player->volume < 0 || player->volume > 32)
+	{
+		player->volume = 8;
+		player->displayVolume = 8;
+	}
 	if(player->highPassVolume < -10 || player->highPassVolume > 10) player->highPassVolume = 0;
 	if(player->lowPassVolume < -10 || player->lowPassVolume > 10) player->lowPassVolume = 0;
+
+
+	//clear memory
+	FLASH_Unlock();
+	FLASH_ClearFlag(FLASH_FLAG_EOP|FLASH_FLAG_PGERR|FLASH_FLAG_WRPRTERR);
+	FLASH_ErasePage(startAddress);
+	FLASH_Lock();
+
+	savePlayerSettings();
 }
